@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Login</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+
+<form id="login-form" class="align" method="post" action="/home">
+    <img src="img/ic_face.svg" class="big-icon">
+    <div class="form-field">
+        <label for="username">
+            <img class="small-icon" src="img/ic_user.svg">
+        </label>
+        <input id="username" type="text" name="username" class="form-input" placeholder="Username" required>
+    </div>
+
+    <div class="form-field">
+        <label for="password">
+            <img class="small-icon" src="img/ic_password.svg">
+        </label>
+        <input id="password" type="password" name="password" class="form-input" placeholder="Password" required>
+    </div>
+
+    <div class="form-field">
+        <input type="submit" class="form-input" value="Sign In">
+    </div>
+</form>
+
+<p class="text-center">Not a member? <a href="/register">Sign up now</a>

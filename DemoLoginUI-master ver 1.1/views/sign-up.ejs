@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+
+    <title>Register</title>
+    <link rel="stylesheet" href="css/style.css">
+
+</head>
+
+
+
+<form id="sign-up-form" class="align" method="post" action="/register">
+    <img src="img/ic_face.svg" class="big-icon">
+    <div class="form-field">
+        <label for="login-username">
+            <img class="small-icon" src="img/ic_user.svg">
+        </label>
+        <input id="username" type="text" name="username" class="form-input" placeholder="Username" required>
+    </div>
+
+    <div class="form-field">
+        <label for="password">
+            <img class="small-icon" src="img/ic_password.svg">
+        </label>
+        <input id="password" type="password" name="password" class="form-input" placeholder="Password" required>
+    </div>
+
+    <div class="form-field">
+            <label for="password">
+                <img class="small-icon" src="img/ic_password.svg">
+            </label>
+            <input id="repeat-password" type="password" name="repeat-password" class="form-input" placeholder="Repeat-Password" required>
+        </div>
+
+    <div class="form-field">
+        <input type="submit" class="form-input" value="Register">
+    </div>
+</form>
+
+<script>
+    var password = document.getElementById("password")
+  , confirm_password = document.getElementById("repeat-password");
+
+function validatePassword(){
+  if(password.value != confirm_password.value) {
+    confirm_password.setCustomValidity("Passwords Don't Match");
+  } else {
+    confirm_password.setCustomValidity('');
+  }
+}
+
+password.onchange = validatePassword;
+confirm_password.onkeyup = validatePassword;
+</script>

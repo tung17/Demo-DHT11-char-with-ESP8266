@@ -1,0 +1,130 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<title>ESP8266 WebSocket</title>
+<link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
+<link rel="stylesheet" type="text/css" href="css/header.css">
+<link rel="stylesheet" type="text/css" href="css/style1.css">
+<link rel="stylesheet" type="text/css" href="css/normalize.css">
+<link rel="stylesheet" type="text/css" href="css/skeleton.css">
+
+<style type="text/css">
+	html, body 
+	{
+		background-color: #6495ED;
+	}
+	#content
+	{
+		text-align: center;
+		text-shadow: 2px 2px black;
+		font-family: myFirstFont;
+		font-size: 300%;
+	}
+	#intro
+	{
+		font-size: 300%;
+	}
+</style>
+</head>
+<body>
+<div id="header">
+    <div class="full-size">
+      <nav class="navbar navbar-inverse">
+        <div class="navbar-header">
+          <img class="img-responsive" src="img/logo.jpg" alt="Website Logo" height="15%" width="30%" >
+        </div>
+        <div class="navbar-collapse collapse" id="main-menu">
+          <ul class="nav navbar-nav navbar-right">
+            <li><a href="http://localhost:3000/register"><strong>REGISTER</strong></a></li>
+            <li class="active"><a href="http://192.168.3.5:3000/home"><strong>SIGN IN</strong></a></li>
+            <li><a href="http://192.168.43.5:3000/" id="sign_out"><strong>SIGN OUT</strong></a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+  </div>
+<div id="content">
+	<div id="intro"><img src="img/IoTmaker.png"></div>
+ 	<div> Webscoket status <span id="status" style="font-weight: bold;"> disconnected </span> </div>
+ </div>
+ 	<div class="row">
+ 		<div class="col-sm-5"></div>
+ 		<div class="col-sm-2 text-center">
+ 			<h4>Thiết bị 1</h4>
+						<div class="onoffswitch">
+							<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="led1">
+							<label class="onoffswitch-label" for="led1">
+								<span class="onoffswitch-inner"></span>
+								<span class="onoffswitch-switch"></span>
+							</label>
+						</div>
+					<h4>Thiết bị 2</h4>
+						<div class="onoffswitch align">
+							<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="led2">
+							<label class="onoffswitch-label" for="led2">
+								<span class="onoffswitch-inner"></span>
+								<span class="onoffswitch-switch"></span>
+							</label>
+						</div>
+ 		</div>
+ 		<div class="col-sm-5"></div>
+ 	</div>
+<script type="text/javascript">
+	var led1 = document.getElementById('led1');
+	var led2 = document.getElementById('led2');
+	var url = window.location.host; // hàm tr? v? url c?a trang hi?n t?i kèm theo port
+	var ws = new WebSocket('ws://' + url + '/ws'); // m? 1 websocket v?i port 8000
+	var sign = document.getElementById('sign_out');
+	var status = 'in';
+	console.log('connecting...')
+	ws.onopen = function() //khi websocket du?c m? thì hàm này s? du?c thuc hi?n
+	{
+	document.getElementById('status').innerHTML = 'Connected';
+	led1.disabled = false; //khi websocket du?c m?, m?i cho phép
+	led2.disabled = false; 
+	console.log('connected...');
+	ws.send("status");
+	};
+	ws.onmessage = function(evt) // s? ki?n x?y ra khi client nh?n d? li?u t? server
+	{
+	console.log(evt.data)
+	if(evt.data == 'LED1_OFF') {
+	led1.checked = false;
+	} else if(evt.data == 'LED1_ON') {
+	led1.checked = true;
+	}
+	else if(evt.data == 'LED2_ON'){
+	led2.checked = true;
+	}
+	else if(evt.data == 'LED2_OFF'){
+	led2.checked = false;
+	}
+	};
+	ws.onclose = function() { // hàm này s? du?c th?c hi?n khi dóng websocket
+	led1.disabled = true;
+	led2.disabled = true;
+	document.getElementById('status').innerHTML = 'Connected';
+	};
+	sign.onclick = function()
+	{
+	var status = 'out';
+	ws.send(status);
+	alert("ban da dang xuat");
+	}
+	led1.onchange = function() { // th?c hi?n thay d?i b?t/t?t led
+	var led1_status = 'LED1_OFF';
+	if (led1.checked) {
+	led1_status = 'LED1_ON';
+	}
+	ws.send(led1_status);
+	}
+	led2.onchange = function() { // th?c hi?n thay d?i b?t/t?t led
+	var led2_status = 'LED2_OFF';
+	if (led2.checked) {
+	led2_status = 'LED2_ON';
+	}
+	ws.send(led2_status);
+	}
+</script>
+</body>
+</html>
