@@ -9,10 +9,14 @@
 <link rel="stylesheet" type="text/css" href="css/skeleton.css">
 
 <style type="text/css">
-	html, body 
-	{
-		background-color: #6495ED;
-	}
+html,body
+{
+	background-color: #F5DEB3;
+}
+input,tr,td,th
+{
+	border: 1px solid black;
+}
 	#content
 	{
 		text-align: center;
@@ -27,48 +31,94 @@
 </style>
 </head>
 <body>
-<div id="header">
-    <div class="full-size">
-      <nav class="navbar navbar-inverse">
-        <div class="navbar-header">
-          <img class="img-responsive" src="img/logo.jpg" alt="Website Logo" height="15%" width="30%" >
-        </div>
-        <div class="navbar-collapse collapse" id="main-menu">
-          <ul class="nav navbar-nav navbar-right">
-            <li><a href="http://localhost:3000/register"><strong>REGISTER</strong></a></li>
-            <li class="active"><a href="http://192.168.3.5:3000/home"><strong>SIGN IN</strong></a></li>
-            <li><a href="http://192.168.43.5:3000/" id="sign_out"><strong>SIGN OUT</strong></a></li>
-          </ul>
-        </div>
-      </nav>
-    </div>
-  </div>
-<div id="content">
-	<div id="intro"><img src="img/IoTmaker.png"></div>
- 	<div> Webscoket status <span id="status" style="font-weight: bold;"> disconnected </span> </div>
- </div>
+<div class="container">
+		<div class="row">
+					<div id="header">
+				    <div class="full-size">
+				      <nav class="navbar navbar-inverse">
+				        <div class="navbar-header">
+				          <img class="img-responsive" src="img/logo.jpg" alt="Website Logo" height="15%" width="30%" >
+				        </div>
+				        <div class="navbar-collapse collapse" id="main-menu">
+				          <ul class="nav navbar-nav navbar-right">
+				            <li><a href="http://localhost:3000/register"><strong>REGISTER</strong></a></li>
+				            <li class="active"><a href="http://192.168.3.5:3000/home"><strong>SIGN IN</strong></a></li>
+				            <li><a href="http://192.168.43.5:3000/" id="sign_out"><strong>SIGN OUT</strong></a></li>
+				          </ul>
+				        </div>
+				      </nav>
+				    </div>
+				  </div>
+		</div>
+	<div id="content" class="row">
+		<div id="intro"><img src="img/IoTmaker.png"></div>
+	 	<div> Webscoket status <span id="status" style="font-weight: bold;"> disconnected </span> </div>
+	 </div>
  	<div class="row">
- 		<div class="col-sm-5"></div>
- 		<div class="col-sm-2 text-center">
- 			<h4>Thiết bị 1</h4>
-						<div class="onoffswitch">
-							<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="led1">
+ 		<div class="col-sm-5 text-center">
+ 			<div class="row mode">
+ 				<div class="col-sm-4"></div>
+ 				<div class="col-sm-4">
+ 					<h2>Mode</h2>
+						<div class="onoffswitch text-center">
+							<strong>Thiết bị 1:</strong><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="led1">
 							<label class="onoffswitch-label" for="led1">
 								<span class="onoffswitch-inner"></span>
 								<span class="onoffswitch-switch"></span>
 							</label>
 						</div>
-					<h4>Thiết bị 2</h4>
-						<div class="onoffswitch align">
-							<input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="led2">
+						<div class="onoffswitch text-center">
+							<strong>Thiết bị 2:</strong><input type="checkbox" name="onoffswitch" class="onoffswitch-checkbox" id="led2">
 							<label class="onoffswitch-label" for="led2">
 								<span class="onoffswitch-inner"></span>
 								<span class="onoffswitch-switch"></span>
 							</label>
 						</div>
+ 				</div>
+ 				<div class="col-sm-4"></div>
+ 			</div>
+ 			<div class="row mode">
+ 				<h3>Nhiệt Độ</h3>
+ 				<input type="text" name="">
+ 				<h3>Độ ẩm</h3>
+ 				<input type="text" name="">
+ 			</div>
  		</div>
- 		<div class="col-sm-5"></div>
+ 		<div class="col-sm-7 mode">
+ 			<h5>Nhiệt Độ</h5>
+ 			<h5>Độ ẩm</h5>
+ 		</div>
  	</div>
+	 	<div class="row mode">
+	 		<form>
+	 			<h3>Thống kê</h3>
+	 			<input type="text" name=""> to <input type="text" name="">
+	 			<input type="submit" name="">
+	 		</form>
+	 		<table border="1px solid black" width="700px">
+	 			<tr>
+	 				<th>Nhiệt Độ</th>
+	 				<th>Độ ẩm</th>
+	 				<th>Thời gian</th>
+	 			</tr>
+	 			<tr>
+	 				<td></td>
+	 				<td></td>
+	 				<td></td>
+	 			</tr>
+	 			<tr>
+	 				<td></td>
+	 				<td></td>
+	 				<td></td>
+	 			</tr>
+	 			<tr>
+	 				<td></td>
+	 				<td></td>
+	 				<td></td>
+	 			</tr>
+	 		</table>
+	 	</div>
+</div>
 <script type="text/javascript">
 	var led1 = document.getElementById('led1');
 	var led2 = document.getElementById('led2');
