@@ -4,6 +4,8 @@
 #include <ESP8266mDNS.h>
 #include <ESP8266WebServer.h>
 #include <WebSocketsServer.h>
+#include <ArduinoJson.h>
+#include "gpio.h"
 #include <FS.h>   // Include the SPIFFS library
 
 ESP8266WiFiMulti wifiMulti;     // Create an instance of the ESP8266WiFiMulti class, called 'wifiMulti'
@@ -11,14 +13,44 @@ ESP8266WiFiMulti wifiMulti;     // Create an instance of the ESP8266WiFiMulti cl
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 WebSocketsServer webSocket = WebSocketsServer(81);
 
+char* Json="";
+AppGPIO gpio;
+DynamicJsonBuffer jsonBuffer;
+String change_data(char* json)
+{
+  JsonObject& object = jsonBuffer.parseObject(json);
+  String method = object["method"].asString();
+  Serial.print(method);
+  JsonArray& allParams =  object["param"];
+  gpio.set(allParams);
+  return method;
+}
 String getContentType(String filename); // convert the file extension to the MIME type
 bool handleFileRead(String path);       // send the right file to the client (if it exists)
+
+void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght) {
+  switch (type) {
+    case WStype_DISCONNECTED:
+      break;
+    case WStype_CONNECTED: 
+      break;
+    case WStype_TEXT:
+      Json=(char*)payload;
+      Serial.println();
+      Serial.println();
+      Serial.println();
+      //Serial.print(Json);
+      change_data(Json);
+      break;
+  }
+
+}
 
 void setup() {
   Serial.begin(115200);         // Start the Serial communication to send messages to the computer
   delay(10);
   Serial.println('\n');
-
+  pinMode(16, OUTPUT);
   wifiMulti.addAP("420super", "024024024");   // add Wi-Fi networks you want to connect to
   wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
   wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
@@ -51,6 +83,7 @@ void setup() {
   server.begin();                           // Actually start the server
   Serial.println("HTTP server started");
   webSocket.begin();
+  webSocket.onEvent(webSocketEvent);
 }
 
 void loop(void) {
@@ -67,7 +100,7 @@ String getContentType(String filename) { // convert the file extension to the MI
 }
 
 bool handleFileRead(String path) { // send the right file to the client (if it exists)
-  Serial.println("handleFileRead: " + path);
+  //Serial.println("handleFileRead: " + path);
   if (path.endsWith("/")) path += "index.html";         // If a folder is requested, send the index file
   String contentType = getContentType(path);            // Get the MIME type
   if (SPIFFS.exists(path)) {                            // If the file exists

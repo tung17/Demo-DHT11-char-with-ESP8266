@@ -605,7 +605,7 @@ class Chart {
 window.onload = function() {
     var url = window.location.host;
     console.log(url);
-    WS.open('ws://192.168.0.103:81/ws');
+    WS.open('ws://192.168.0.100:81/ws');
     if (document.getElementById('volt-chart') == null)
         return;
     volt = new Chart('volt-chart', 500, 0, 220);
