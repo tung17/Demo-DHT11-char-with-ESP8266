@@ -41,6 +41,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
       Serial.println();
       //Serial.print(Json);
       change_data(Json);
+      webSocket.broadcastTXT("data");
       break;
   }
 
@@ -52,7 +53,7 @@ void setup() {
   Serial.println('\n');
   pinMode(16, OUTPUT);
   wifiMulti.addAP("420super", "024024024");   // add Wi-Fi networks you want to connect to
-  wifiMulti.addAP("ssid_from_AP_2", "your_password_for_AP_2");
+  wifiMulti.addAP("iotmaker_nho", "@iotmaker.vn");
   wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");
 
   Serial.println("Connecting ...");
