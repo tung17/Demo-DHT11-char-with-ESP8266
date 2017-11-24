@@ -17,9 +17,9 @@ const long interval = 1000;
 
 DHT dht(DHTPIN, DHTTYPE);
 
-const char *ssid = "HACKER1";
+const char *ssid = "TUNG";
 
-ESP8266WiFiMulti wifiMulti;     // Create an instance of the ESP8266WiFiMulti class, called 'wifiMulti'
+//ESP8266WiFiMulti wifiMulti;     // Create an instance of the ESP8266WiFiMulti class, called 'wifiMulti'
 
 ESP8266WebServer server(80);    // Create a webserver object that listens for HTTP request on port 80
 WebSocketsServer webSocket = WebSocketsServer(81);
@@ -38,10 +38,10 @@ String change_data(char* json)
 }
 bool load_data(float temp,float humd)
 {
-  String temp_char = String(temp,1);
-  String humd_char = String(humd,1);
+  String temp_char = String(temp,3);
+  String humd_char = String(humd,3);
   String json1 ="";
-  json1 = String("{") + "\"nhietdo\":" + String(temp)+ ","+ "\"doam\":" +String(humd) + "}";
+  json1 = String("{") +"\"nhietdo\":" + temp_char+ ","+ "\"doam\":" +humd_char + "}";
   webSocket.broadcastTXT(json1);
 }
 String getContentType(String filename); // convert the file extension to the MIME type
@@ -77,19 +77,19 @@ void setup() {
   wifiMulti.addAP("iotmaker_nho", "@iotmaker.vn");
   wifiMulti.addAP("ssid_from_AP_3", "your_password_for_AP_3");*/
 
-  Serial.println("Connecting ...");
+  /*Serial.println("Connecting ...");
   int i = 0;
-  /*while (wifiMulti.run() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
+  while (wifiMulti.run() != WL_CONNECTED) { // Wait for the Wi-Fi to connect
     delay(250);
     Serial.print('.');
-  }*/
-  /*Serial.println('\n');
+  }
+  Serial.println('\n');
   Serial.print("Connected to ");
   Serial.println(WiFi.SSID());              // Tell us what network we're connected to
   Serial.print("IP address:\t");
-  Serial.println(WiFi.localIP());  */         // Send the IP address of the ESP8266 to the computer
+  Serial.println(WiFi.localIP());          // Send the IP address of the ESP8266 to the computer
 
-  /*if (MDNS.begin("http://esp8266",WiFi.localIP())) {              // Start the mDNS responder for esp8266.local
+  if (MDNS.begin("http://esp8266",WiFi.localIP())) {              // Start the mDNS responder for esp8266.local
     Serial.println("mDNS responder started");
   } else {
     Serial.println("Error setting up MDNS responder!");

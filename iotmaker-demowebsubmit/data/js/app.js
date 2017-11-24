@@ -16,9 +16,11 @@
 
 
 //Applicaiton code
+var index = 0;
+var nhietdo_char = [];
+var doam_char = [];
 var nhietdo =document.getElementById("temp");
 var doam = document.getElementById("humid");
-var volt, current, power, factor;
 function setMsg(cls, text) {
     sbox = document.getElementById('status_box');
     sbox.className = "siimple-alert  siimple-alert--" + cls;
@@ -47,6 +49,17 @@ var WS = {
             console.log(data.nhietdo);
             nhietdo.value = data.nhietdo;
             doam.value = data.doam;
+            if(nhietdo_char.length <10)
+            {
+                nhietdo_char.push({x: index , y: data.nhietdo});
+                doam_char.push({x: index, y: data.doam});
+                index++ ;
+            }
+            else
+            {
+                nhietdo_char.shift();
+                doam_char.shift();
+            }
         };
     },
     write: function(data) {
@@ -73,21 +86,55 @@ window.onload = function() {
     WS.open('ws://192.168.4.1:81/ws');
     var url = window.location.host;
     console.log(url);
-    if (document.getElementById('volt-chart') == null)
-        return;
-    volt = new Chart('volt-chart', 500, 0, 220);
-    current = new Chart('current-chart', 500, 0, 17);
-    power = new Chart('power-chart', 500, 0, 2000);
-    factor = new Chart('factor-chart', 500, 0, 100);
-    // WS.open('ws://' + location.host + '/ws');
+    var chart = new CanvasJS.Chart("humid-chart", {
+    animationEnabled: true,
+    exportEnabled: false,
+    title:{
+        text: "HUMID"
+    },
+    axisY:{ 
+        title: "Độ ẩm",
+        includeZero: false, 
+        suffix: "%",
+        valueFormatString: "#.0"
+    },
+    data: [{
+        type: "splineArea",
+        color: "rgba(54,158,173,.7)",
+        markerSize: 5,
+        dataPoints: doam_char
+    }]
+});
 
-    setInterval(function() {
-        volt.addTest();
-        current.addTest();
-        power.addTest();
-        factor.addTest();
-    }, 500);
-
+    var chart1 = new CanvasJS.Chart("temp-chart", {
+    animationEnabled: true,
+    exportEnabled: false,
+    title:{
+        text: "TEMPERATOR"
+    },
+    axisY:{ 
+        title: "nhiệt độ",
+        includeZero: false, 
+        suffix: "oC",
+        valueFormatString: "#.0"
+    },
+    data: [{
+        type: "splineArea",
+        color: "red",
+        markerSize: 5,
+        dataPoints: nhietdo_char
+    }]
+});
+    chart.render();
+    chart1.render();
+    var updateChart = function () {
+    chart.render();
+    chart1.render();     
+     // update chart after specified time. 
+};
+setInterval(function(){
+    updateChart()
+}, 1000);
 };
 
 function led() {
@@ -101,16 +148,4 @@ function led() {
             io: 16,
             val: 1
         }]);
-}
-
-function scan(el) {
-    el.innerHTML = "Scanning...";
-    el.disabled = true;
-    el.className = '';
-    WS.request('wifi', 'get', [], el, document.getElementById('scan-table'));
-}
-
-function set_ssid(value) {
-    console.log(value);
-    document.getElementById('ssid').value = value;
 }
