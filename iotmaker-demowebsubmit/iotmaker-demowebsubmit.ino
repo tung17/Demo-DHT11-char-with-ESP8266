@@ -68,7 +68,7 @@ void webSocketEvent(uint8_t num, WStype_t type, uint8_t * payload, size_t lenght
 
 void setup() {
   Serial.begin(115200);        // Start the Serial communication to send messages to the computer
-  WiFi.softAP(ssid);
+ WiFi.softAP(ssid);
   delay(10);
   dht.begin();
   Serial.println('\n');

@@ -1,4 +1,15 @@
-
+#temp
+{
+  width: 100px;
+  font-size: 30px;
+  color: red;
+}
+#humid 
+{
+  width: 100px;
+  font-size: 30px;
+  color: blue;
+}
 .onoffswitch {
 	position: relative; width: 90px;
 	-webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;

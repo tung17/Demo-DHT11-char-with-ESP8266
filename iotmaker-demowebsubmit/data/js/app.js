@@ -47,8 +47,8 @@ var WS = {
         this.ws.onmessage = function(evt) {
             var data = JSON.parse(evt.data);
             console.log(data.nhietdo);
-            nhietdo.value = data.nhietdo;
-            doam.value = data.doam;
+            nhietdo.innerHTML = data.nhietdo;
+            doam.innerHTML = data.doam;
             if(nhietdo_char.length <10)
             {
                 nhietdo_char.push({x: index , y: data.nhietdo});
